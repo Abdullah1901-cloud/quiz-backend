@@ -29,6 +29,11 @@ const sessionStore = new SequelizeSessionStore({
   checkExpirationInterval: 15 * 60 * 1000, // Bersihkan session tiap 15 menit
   expiration: 30 * 24 * 60 * 60 * 1000, // Expired di database setelah 30 hari
 });
+sessionStore.sync().then(() => {
+  console.log('✅ Tabel sessions siap digunakan.');
+}).catch((err) => {
+  console.error('❌ Gagal membuat tabel sessions:', err);
+});
 
 (async () => {
   try {
@@ -54,7 +59,6 @@ const sessionStore = new SequelizeSessionStore({
     // ⬇️ Jalankan asosiasi antar model
     applyAssociations();
     await db.sync();
-    await sessionStore.sync();
     await import('./cron.js');
     console.log('Models and session store synced');
   } catch (error) {
