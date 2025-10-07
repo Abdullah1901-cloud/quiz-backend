@@ -28,6 +28,13 @@ const sessionStore = new SequelizeSessionStore({
   db: db,
   checkExpirationInterval: 15 * 60 * 1000, // Bersihkan session tiap 15 menit
   expiration: 30 * 24 * 60 * 60 * 1000, // Expired di database setelah 30 hari
+  extendDefaultFields: (defaults, session) => {
+    // tambahkan kolom user_id sehingga mudah di-index
+    return {
+      ...defaults,
+      user_id: session.user?.uuid || null,
+    };
+  },
 });
 sessionStore.sync().then(() => {
   console.log('✅ Tabel sessions siap digunakan.');

@@ -50,11 +50,7 @@ export const Login = async (req, res) => {
     if (role === 'administrator') {
       // 🔹 Hapus session lama user ini (jika masih ada di tabel sessions)
       await Session.destroy({
-        where: {
-          data: {
-            [Op.like]: `%${user.uuid}%`, // cari semua session yang menyimpan UUID user ini
-          },
-        },
+        where: { user_id: user.uuid },
       });
       req.session.user = {
         uuid: user.uuid,
@@ -92,11 +88,7 @@ export const Login = async (req, res) => {
     } else if (role === 'student') {
       // 🔹 Hapus session lama user ini (jika masih ada di tabel sessions)
       await Session.destroy({
-        where: {
-          data: {
-            [Op.like]: `%${user.uuid}%`, // cari semua session yang menyimpan UUID user ini
-          },
-        },
+        where: { user_id: user.uuid },
       });
       // Buat session
       req.session.user = {
@@ -122,11 +114,7 @@ export const Login = async (req, res) => {
     } else {
       // 🔹 Hapus session lama user ini (jika masih ada di tabel sessions)
       await Session.destroy({
-        where: {
-          data: {
-            [Op.like]: `%${user.uuid}%`, // cari semua session yang menyimpan UUID user ini
-          },
-        },
+        where: { user_id: user.uuid },
       });
       // Buat session
       req.session.user = {
