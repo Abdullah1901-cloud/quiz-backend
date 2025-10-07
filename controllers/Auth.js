@@ -49,15 +49,18 @@ export const Login = async (req, res) => {
     }
     if (role === 'administrator') {
       // 🔹 Hapus session lama user ini (jika masih ada di tabel sessions)
-      await Session.destroy({
-        where: { user_id: user.uuid },
-      });
+      // await Session.destroy({
+      //   where: { user_id: user.uuid },
+      // });
       req.session.user = {
         uuid: user.uuid,
         user_id: user.user_id,
         role: user.role,
         is_superadmin: user.adminDetails?.is_superadmin,
       };
+      await new Promise((resolve, reject) => {
+        req.session.save((err) => (err ? reject(err) : resolve()));
+      });
       await logActivity({
         req,
         action: 'LOGIN',
@@ -87,9 +90,9 @@ export const Login = async (req, res) => {
       }
     } else if (role === 'student') {
       // 🔹 Hapus session lama user ini (jika masih ada di tabel sessions)
-      await Session.destroy({
-        where: { user_id: user.uuid },
-      });
+      // await Session.destroy({
+      //   where: { user_id: user.uuid },
+      // });
       // Buat session
       req.session.user = {
         uuid: user.uuid,
@@ -97,6 +100,9 @@ export const Login = async (req, res) => {
         role: user.role,
         class_id: user.studentDetails?.class_id,
       };
+      await new Promise((resolve, reject) => {
+        req.session.save((err) => (err ? reject(err) : resolve()));
+      });
       await logActivity({
         req,
         action: 'LOGIN',
@@ -113,15 +119,18 @@ export const Login = async (req, res) => {
       });
     } else {
       // 🔹 Hapus session lama user ini (jika masih ada di tabel sessions)
-      await Session.destroy({
-        where: { user_id: user.uuid },
-      });
+      // await Session.destroy({
+      //   where: { user_id: user.uuid },
+      // });
       // Buat session
       req.session.user = {
         uuid: user.uuid,
         user_id: user.user_id,
         role: user.role,
       };
+      await new Promise((resolve, reject) => {
+        req.session.save((err) => (err ? reject(err) : resolve()));
+      });
       await logActivity({
         req,
         action: 'LOGIN',
