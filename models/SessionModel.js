@@ -19,11 +19,6 @@ const Session = db.define('sessions', {
 }, {
   tableName: 'sessions',
   timestamps: false,
-  indexes:[
-      {
-        fields: ['user_id'],
-      }
-    ]
 });
 
 export default Session;

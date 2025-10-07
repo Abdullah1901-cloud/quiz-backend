@@ -58,9 +58,18 @@ export const Login = async (req, res) => {
         role: user.role,
         is_superadmin: user.adminDetails?.is_superadmin,
       };
-      await req.session.save(); // simpan session di DB
-      // Ambil session id dari cookie atau req.sessionID
-      await Session.update({ user_id: user.uuid }, { where: { sid: req.sessionID } });
+      // simpan session terlebih dahulu
+      await new Promise((resolve, reject) => {
+        req.session.save(async (err) => {
+          if (err) return reject(err);
+
+          // update kolom user_id secara manual di tabel sessions
+          const sid = req.sessionID;
+          await Session.update({ user_id: user.uuid }, { where: { sid } });
+
+          resolve();
+        });
+      });
       await logActivity({
         req,
         action: 'LOGIN',
@@ -100,9 +109,18 @@ export const Login = async (req, res) => {
         role: user.role,
         class_id: user.studentDetails?.class_id,
       };
-      await req.session.save(); // simpan session di DB
-      // Ambil session id dari cookie atau req.sessionID
-      await Session.update({ user_id: user.uuid }, { where: { sid: req.sessionID } });
+      // simpan session terlebih dahulu
+      await new Promise((resolve, reject) => {
+        req.session.save(async (err) => {
+          if (err) return reject(err);
+
+          // update kolom user_id secara manual di tabel sessions
+          const sid = req.sessionID;
+          await Session.update({ user_id: user.uuid }, { where: { sid } });
+
+          resolve();
+        });
+      });
       await logActivity({
         req,
         action: 'LOGIN',
@@ -128,9 +146,19 @@ export const Login = async (req, res) => {
         user_id: user.user_id,
         role: user.role,
       };
-      await req.session.save(); // simpan session di DB
-      // Ambil session id dari cookie atau req.sessionID
-      await Session.update({ user_id: user.uuid }, { where: { sid: req.sessionID } });
+      // simpan session terlebih dahulu
+      await new Promise((resolve, reject) => {
+        req.session.save(async (err) => {
+          if (err) return reject(err);
+
+          // update kolom user_id secara manual di tabel sessions
+          const sid = req.sessionID;
+          console.log('sid', sid);
+          await Session.update({ user_id: user.uuid }, { where: { sid } });
+
+          resolve();
+        });
+      });
       await logActivity({
         req,
         action: 'LOGIN',
