@@ -78,7 +78,7 @@ app.use(
 app.use(
   cors({
     credentials: true,
-    origin: ['http://localhost:3000', 'http://10.34.225.75:3000','https://sunny-lebkuchen-c66b64.netlify.app'],
+    origin: ['https://platformtugas.netlify.app'],
   })
 );
 app.use(express.json());
