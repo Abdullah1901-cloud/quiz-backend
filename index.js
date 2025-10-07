@@ -24,6 +24,7 @@ const app = express();
 
 const SequelizeSessionStore = SequelizeStore(session.Store);
 const sessionStore = new SequelizeSessionStore({
+  tableName: 'sessions',
   db: db,
   checkExpirationInterval: 15 * 60 * 1000, // Bersihkan session tiap 15 menit
   expiration: 30 * 24 * 60 * 60 * 1000, // Expired di database setelah 30 hari
@@ -53,7 +54,7 @@ const sessionStore = new SequelizeSessionStore({
     // ⬇️ Jalankan asosiasi antar model
     applyAssociations();
     await db.sync();
-    // await sessionStore.sync();
+    await sessionStore.sync();
     await import('./cron.js');
     console.log('Models and session store synced');
   } catch (error) {
