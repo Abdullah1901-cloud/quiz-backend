@@ -52,8 +52,8 @@ const sessionStore = new SequelizeSessionStore({
 
     // ⬇️ Jalankan asosiasi antar model
     applyAssociations();
-    // await db.sync();
-    // await sessionStore.sync();
+    await db.sync();
+    await sessionStore.sync();
     await import('./cron.js');
     console.log('Models and session store synced');
   } catch (error) {
