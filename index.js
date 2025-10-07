@@ -100,6 +100,6 @@ app.use(StudentBadgesRoute);
 
 app.set('trust proxy', true);
 
-app.listen(process.env.APP_PORT || 5000, () => {
-  console.log(`Server is running on port ${process.env.APP_PORT || 5000}`);
+app.listen(process.env.DB_PORT || 3306, () => {
+  console.log(`Server is running on port ${process.env.APP_PORT || 3306}`);
 });
