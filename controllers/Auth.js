@@ -58,6 +58,7 @@ export const Login = async (req, res) => {
         role: user.role,
         is_superadmin: user.adminDetails?.is_superadmin,
       };
+      req.session.user_id = user.uuid;
       req.session.save((err) => {
         if (err) console.error('❌ Gagal menyimpan session:', err);
       });
@@ -100,6 +101,7 @@ export const Login = async (req, res) => {
         role: user.role,
         class_id: user.studentDetails?.class_id,
       };
+      req.session.user_id = user.uuid;
       req.session.save((err) => {
         if (err) console.error('❌ Gagal menyimpan session:', err);
       });
@@ -128,6 +130,7 @@ export const Login = async (req, res) => {
         user_id: user.user_id,
         role: user.role,
       };
+      req.session.user_id = user.uuid;
       req.session.save((err) => {
         if (err) console.error('❌ Gagal menyimpan session:', err);
       });
