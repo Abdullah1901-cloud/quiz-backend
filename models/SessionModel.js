@@ -12,9 +12,18 @@ const Session = db.define('sessions', {
   data: {
     type: DataTypes.TEXT,
   },
+  user_id:{
+    type: DataTypes.STRING,
+    defaultValue:null
+  }
 }, {
   tableName: 'sessions',
   timestamps: false,
+  indexes:[
+      {
+        fields: ['user_id'],
+      }
+    ]
 });
 
 export default Session;
