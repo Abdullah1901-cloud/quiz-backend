@@ -65,6 +65,7 @@ sessionStore
     await import('./models/BadgeModel.js');
     await import('./models/StudentBadgesModel.js');
     await import('./models/StudentPointsLogModel.js');
+    await import('./models/SessionModel.js')
 
     // ⬇️ Jalankan asosiasi antar model
     applyAssociations();
