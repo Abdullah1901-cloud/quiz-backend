@@ -58,6 +58,9 @@ export const Login = async (req, res) => {
         role: user.role,
         is_superadmin: user.adminDetails?.is_superadmin,
       };
+      req.session.save((err) => {
+        if (err) console.error('❌ Gagal menyimpan session:', err);
+      });
       await logActivity({
         req,
         action: 'LOGIN',
@@ -97,6 +100,9 @@ export const Login = async (req, res) => {
         role: user.role,
         class_id: user.studentDetails?.class_id,
       };
+      req.session.save((err) => {
+        if (err) console.error('❌ Gagal menyimpan session:', err);
+      });
       await logActivity({
         req,
         action: 'LOGIN',
@@ -122,7 +128,9 @@ export const Login = async (req, res) => {
         user_id: user.user_id,
         role: user.role,
       };
-      
+      req.session.save((err) => {
+        if (err) console.error('❌ Gagal menyimpan session:', err);
+      });
       await logActivity({
         req,
         action: 'LOGIN',

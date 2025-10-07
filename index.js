@@ -32,15 +32,18 @@ const sessionStore = new SequelizeSessionStore({
     // tambahkan kolom user_id sehingga mudah di-index
     return {
       ...defaults,
-      user_id: session.user?.uuid || null,
+      user_id: session.user?.uuid || defaults.user_id || null,
     };
   },
 });
-sessionStore.sync().then(() => {
-  console.log('✅ Tabel sessions siap digunakan.');
-}).catch((err) => {
-  console.error('❌ Gagal membuat tabel sessions:', err);
-});
+sessionStore
+  .sync()
+  .then(() => {
+    console.log('✅ Tabel sessions siap digunakan.');
+  })
+  .catch((err) => {
+    console.error('❌ Gagal membuat tabel sessions:', err);
+  });
 
 (async () => {
   try {
@@ -61,7 +64,7 @@ sessionStore.sync().then(() => {
     await import('./models/studentQuizz/studentAnswerModel.js');
     await import('./models/BadgeModel.js');
     await import('./models/StudentBadgesModel.js');
-    await import ('./models/StudentPointsLogModel.js');
+    await import('./models/StudentPointsLogModel.js');
 
     // ⬇️ Jalankan asosiasi antar model
     applyAssociations();
