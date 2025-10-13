@@ -21,7 +21,13 @@ import applyAssociations from './models/associations.js';
 dotenv.config();
 
 const app = express();
-
+app.set('trust proxy', true);
+app.use(
+  cors({
+    origin: 'https://platformtugas.netlify.app',
+    credentials: true,
+  })
+);
 const SequelizeSessionStore = SequelizeStore(session.Store);
 const sessionStore = new SequelizeSessionStore({
   tableName: 'sessions',
@@ -91,12 +97,7 @@ app.use(
     },
   })
 );
-app.use(
-  cors({
-    credentials: true,
-    origin: ['https://platformtugas.netlify.app'],
-  })
-);
+
 app.use(express.json());
 app.use(express.static('public'));
 
@@ -114,7 +115,6 @@ app.use(QuizzAttemptRoute);
 app.use(QuizzRekapRoute);
 app.use(StudentBadgesRoute);
 
-app.set('trust proxy', true);
 
 app.listen(process.env.DB_PORT || 3306, () => {
   console.log(`Server is running on port ${process.env.APP_PORT || 3306}`);
