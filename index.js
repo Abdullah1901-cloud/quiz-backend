@@ -21,7 +21,7 @@ import applyAssociations from './models/associations.js';
 dotenv.config();
 
 const app = express();
-app.set('trust proxy', true);
+app.set('trust proxy', 1);
 app.use(
   cors({
     origin: 'https://platformtugas.netlify.app',
@@ -50,7 +50,20 @@ sessionStore
   .catch((err) => {
     console.error('❌ Gagal membuat tabel sessions:', err);
   });
-
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    store: sessionStore,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: 30 * 24 * 60 * 60 * 1000, //30 Hari
+    },
+  })
+);
 (async () => {
   try {
     await db.authenticate();
@@ -82,24 +95,6 @@ sessionStore
     console.error('Database connection failed:', error);
   }
 })();
-
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    store: sessionStore,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      maxAge: 30 * 24 * 60 * 60 * 1000, //30 Hari
-    },
-  })
-);
-
-app.use(express.json());
-app.use(express.static('public'));
 
 //Routes
 app.use(UserRoute);
