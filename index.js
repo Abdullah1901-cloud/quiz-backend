@@ -96,6 +96,8 @@ app.use(
     },
   })
 );
+app.use(express.json()); 
+app.use(express.static('public'));
 //Routes
 app.use(UserRoute);
 app.use(AdminRoute);
