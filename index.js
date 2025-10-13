@@ -24,7 +24,7 @@ const app = express();
 app.set('trust proxy', 1);
 app.use(
   cors({
-    origin: 'https://platformtugas.netlify.app',
+    origin: true,
     credentials: true,
   })
 );
@@ -50,20 +50,7 @@ sessionStore
   .catch((err) => {
     console.error('❌ Gagal membuat tabel sessions:', err);
   });
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    store: sessionStore,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      maxAge: 30 * 24 * 60 * 60 * 1000, //30 Hari
-    },
-  })
-);
+
 (async () => {
   try {
     await db.authenticate();
