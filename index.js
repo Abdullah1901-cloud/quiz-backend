@@ -82,7 +82,20 @@ sessionStore
     console.error('Database connection failed:', error);
   }
 })();
-
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: sessionStore,
+    cookie: {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 hari
+    },
+  })
+);
 //Routes
 app.use(UserRoute);
 app.use(AdminRoute);
